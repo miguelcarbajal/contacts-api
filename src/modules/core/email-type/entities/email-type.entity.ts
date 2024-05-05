@@ -1,8 +1,8 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('email_types', { schema: 'core' })
 export class EmailType {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column()

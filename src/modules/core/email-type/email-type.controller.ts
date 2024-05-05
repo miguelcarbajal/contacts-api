@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { EmailTypeService } from './email-type.service';
-import { CreateEmailTypeDto } from './dto/create-email-type.dto';
-import { UpdateEmailTypeDto } from './dto/update-email-type.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { EmailTypeService } from './email-type.service'
+import { CreateEmailTypeDto } from './dto/create-email-type.dto'
+import { UpdateEmailTypeDto } from './dto/update-email-type.dto'
 
 @Controller('email-type')
 export class EmailTypeController {
@@ -9,26 +9,31 @@ export class EmailTypeController {
 
   @Post()
   create(@Body() createEmailTypeDto: CreateEmailTypeDto) {
-    return this.emailTypeService.create(createEmailTypeDto);
+    return this.emailTypeService.create(createEmailTypeDto)
   }
 
   @Get()
   findAll() {
-    return this.emailTypeService.findAll();
+    return this.emailTypeService.findAll()
+  }
+
+  @Get('seed')
+  seed() {
+    return this.emailTypeService.seed()
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.emailTypeService.findOne(+id);
+    return this.emailTypeService.findOne(+id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEmailTypeDto: UpdateEmailTypeDto) {
-    return this.emailTypeService.update(+id, updateEmailTypeDto);
+    return this.emailTypeService.update(+id, updateEmailTypeDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.emailTypeService.remove(+id);
+    return this.emailTypeService.remove(+id)
   }
 }

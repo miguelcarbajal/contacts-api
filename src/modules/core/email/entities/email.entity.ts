@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Contact } from '../../contact/entities/contact.entity'
 import { EmailType } from '../../email-type/entities/email-type.entity'
 
 @Entity('emails', { schema: 'core' })
 export class Email {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @ManyToOne(() => Contact, (contact) => contact.emails, { onDelete: 'CASCADE' })

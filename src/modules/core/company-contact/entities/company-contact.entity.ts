@@ -1,10 +1,10 @@
-import { OneToOne, JoinColumn, Entity, PrimaryColumn } from 'typeorm'
+import { OneToOne, JoinColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { Contact } from '../../contact/entities/contact.entity'
 import { Company } from '../../company/entities/company.entity'
 
 @Entity('company_contacts', { schema: 'core' })
 export class CompanyContact {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @OneToOne(() => Contact, (contact) => contact.personContact)

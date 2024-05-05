@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PhoneNumberTypeService } from './phone-number-type.service';
-import { CreatePhoneNumberTypeDto } from './dto/create-phone-number-type.dto';
-import { UpdatePhoneNumberTypeDto } from './dto/update-phone-number-type.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { PhoneNumberTypeService } from './phone-number-type.service'
+import { CreatePhoneNumberTypeDto } from './dto/create-phone-number-type.dto'
+import { UpdatePhoneNumberTypeDto } from './dto/update-phone-number-type.dto'
 
 @Controller('phone-number-type')
 export class PhoneNumberTypeController {
@@ -9,26 +9,31 @@ export class PhoneNumberTypeController {
 
   @Post()
   create(@Body() createPhoneNumberTypeDto: CreatePhoneNumberTypeDto) {
-    return this.phoneNumberTypeService.create(createPhoneNumberTypeDto);
+    return this.phoneNumberTypeService.create(createPhoneNumberTypeDto)
   }
 
   @Get()
   findAll() {
-    return this.phoneNumberTypeService.findAll();
+    return this.phoneNumberTypeService.findAll()
+  }
+
+  @Get('seed')
+  seed() {
+    return this.phoneNumberTypeService.seed()
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.phoneNumberTypeService.findOne(+id);
+    return this.phoneNumberTypeService.findOne(+id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePhoneNumberTypeDto: UpdatePhoneNumberTypeDto) {
-    return this.phoneNumberTypeService.update(+id, updatePhoneNumberTypeDto);
+    return this.phoneNumberTypeService.update(+id, updatePhoneNumberTypeDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.phoneNumberTypeService.remove(+id);
+    return this.phoneNumberTypeService.remove(+id)
   }
 }

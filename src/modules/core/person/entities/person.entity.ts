@@ -1,9 +1,9 @@
-import { Entity, PrimaryColumn, Column, OneToOne } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm'
 import { PersonContact } from '../../person-contact/entities/person-contact.entity'
 
 @Entity('persons', { schema: 'core' })
 export class Person {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column()

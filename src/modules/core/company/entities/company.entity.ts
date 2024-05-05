@@ -1,9 +1,9 @@
-import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { CompanyContact } from '../../company-contact/entities/company-contact.entity'
 
 @Entity('companies', { schema: 'core' })
 export class Company {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column({ type: 'text' })
