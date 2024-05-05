@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { ContactExpirationService } from './contact-expiration.service';
-import { ContactExpirationController } from './contact-expiration.controller';
+import { Module } from '@nestjs/common'
+import { ContactExpirationService } from './contact-expiration.service'
+import { ContactExpirationController } from './contact-expiration.controller'
 
 @Module({
   controllers: [ContactExpirationController],

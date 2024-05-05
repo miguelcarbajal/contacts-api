@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
 import { ContactGroupService } from './contact-group.service'
 import { CreateContactGroupDto } from './dto/create-contact-group.dto'
 import { UpdateContactGroupDto } from './dto/update-contact-group.dto'
@@ -31,10 +23,7 @@ export class ContactGroupController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateContactGroupDto: UpdateContactGroupDto
-  ) {
+  update(@Param('id') id: string, @Body() updateContactGroupDto: UpdateContactGroupDto) {
     return this.contactGroupService.update(+id, updateContactGroupDto)
   }
 
