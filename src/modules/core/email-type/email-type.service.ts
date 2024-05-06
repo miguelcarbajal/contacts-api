@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common'
 import { CreateEmailTypeDto } from './dto/create-email-type.dto'
 import { UpdateEmailTypeDto } from './dto/update-email-type.dto'
-import { seedData } from 'src/database/seeds/utils/seeds.utils'
+import { SeedService } from '../../../database/seeds/utils/seeds.utils'
 import { InjectRepository } from '@nestjs/typeorm'
 import { EmailType } from './entities/email-type.entity'
 import { Repository } from 'typeorm'
-import { seedEmailTypes } from 'src/database/seeds/core/core.seeds'
+import { seedEmailTypes } from '../../../database/seeds/core/core.seeds'
 
 @Injectable()
 export class EmailTypeService {
   constructor(
     @InjectRepository(EmailType)
-    private readonly emailTypeRepository: Repository<EmailType>
+    private readonly emailTypeRepository: Repository<EmailType>,
+    private readonly seedService: SeedService
   ) {}
 
   create(createEmailTypeDto: CreateEmailTypeDto) {
@@ -35,6 +36,6 @@ export class EmailTypeService {
   }
 
   async seed() {
-    return await seedData(this.emailTypeRepository, seedEmailTypes)
+    return await this.seedService.seedData(this.emailTypeRepository, seedEmailTypes)
   }
 }

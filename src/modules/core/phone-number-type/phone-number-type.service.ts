@@ -4,14 +4,15 @@ import { UpdatePhoneNumberTypeDto } from './dto/update-phone-number-type.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PhoneNumberType } from './entities/phone-number-type.entity'
 import { Repository } from 'typeorm'
-import { seedData } from 'src/database/seeds/utils/seeds.utils'
-import { seedPhoneNumberTypes } from 'src/database/seeds/core/core.seeds'
+import { SeedService } from '../../../database/seeds/utils/seeds.utils'
+import { seedPhoneNumberTypes } from '../../../database/seeds/core/core.seeds'
 
 @Injectable()
 export class PhoneNumberTypeService {
   constructor(
     @InjectRepository(PhoneNumberType)
-    private readonly phoneNumberTypeRepository: Repository<PhoneNumberType>
+    private readonly phoneNumberTypeRepository: Repository<PhoneNumberType>,
+    private readonly seedService: SeedService
   ) {}
 
   create(createPhoneNumberTypeDto: CreatePhoneNumberTypeDto) {
@@ -35,6 +36,6 @@ export class PhoneNumberTypeService {
   }
 
   async seed() {
-    return await seedData(this.phoneNumberTypeRepository, seedPhoneNumberTypes)
+    return await this.seedService.seedData(this.phoneNumberTypeRepository, seedPhoneNumberTypes)
   }
 }
