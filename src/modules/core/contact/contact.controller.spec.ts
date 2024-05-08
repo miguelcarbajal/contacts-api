@@ -19,6 +19,7 @@ import { Contact } from './entities/contact.entity'
 
 describe('ContactController', () => {
   let controller: ContactController
+  let service: ContactService
   const mockContactRepository: Partial<Record<keyof Repository<Contact>, jest.Mock>> = {}
   const mockPersonRepository: Partial<Record<keyof Repository<Person>, jest.Mock>> = {}
   const mockCompanyRepository: Partial<Record<keyof Repository<Company>, jest.Mock>> = {}
@@ -55,9 +56,17 @@ describe('ContactController', () => {
     }).compile()
 
     controller = module.get<ContactController>(ContactController)
+    service = module.get<ContactService>(ContactService)
   })
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined()
+  describe('findAll()', () => {
+    it('should get all contacts', async () => {
+      const serviceResult: Array<Contact> = [{}, {}, {}] as Array<Contact>
+      jest.spyOn(service, 'findAll').mockImplementation(async () => serviceResult)
+
+      const result = await controller.findAll()
+
+      expect(result).toBe(serviceResult)
+    })
   })
 })

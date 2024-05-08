@@ -91,6 +91,8 @@ export class ContactService {
 
       const personContactInstance = this.personContactRepository.create()
       personContactInstance.person = person
+
+      contactInstance.personContact = personContactInstance
     }
 
     if (createContactDto.companyId) {
@@ -98,6 +100,8 @@ export class ContactService {
 
       const companyContactInstance = this.companyContactRepository.create()
       companyContactInstance.company = company
+
+      contactInstance.companyContact = companyContactInstance
     }
 
     if (!createContactDto.companyId && createContactDto.company) {
@@ -106,11 +110,14 @@ export class ContactService {
 
       const companyContactInstance = this.companyContactRepository.create()
       companyContactInstance.company = company
+
+      contactInstance.companyContact = companyContactInstance
     }
 
     if (Array.isArray(createContactDto.phoneNumbers) && createContactDto.phoneNumbers.length > 0) {
       const alreadyPrimarySelected = createContactDto.phoneNumbers.some((phoneNumber) => phoneNumber.isPrimary)
 
+      // TODO: enhance phone number type logic, cache if possible with Redis
       const phoneNumberInstances = createContactDto.phoneNumbers.map((phoneNumber, index) => {
         const phoneNumberType = this.phoneNumberTypeRepository.create({ id: phoneNumber.typeId })
 
@@ -131,6 +138,7 @@ export class ContactService {
     if (Array.isArray(createContactDto.emails) && createContactDto.emails.length > 0) {
       const alreadyPrimarySelected = createContactDto.emails.some((email) => email.isPrimary)
 
+      // TODO: enhance email type logic, cache if possible with Redis
       const emailInstances = createContactDto.emails.map((email, index) => {
         const emailType = this.emailTypeRepository.create({ id: email.typeId })
 

@@ -15,5 +15,5 @@ export class CreatePhoneNumberDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsBoolean()
-  isPrimary: boolean
+  isPrimary?: boolean
 }
