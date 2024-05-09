@@ -20,7 +20,7 @@ export class EmailTypeService {
   }
 
   findAll() {
-    return `This action returns all emailType`
+    return this.emailTypeRepository.find()
   }
 
   findOne(id: number) {

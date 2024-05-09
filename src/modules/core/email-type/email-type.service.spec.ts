@@ -26,7 +26,18 @@ describe('EmailTypeService', () => {
     seedService = module.get<SeedService>(SeedService)
   })
 
-  describe('seed', () => {
+  describe('findAll()', () => {
+    it('should get all email types', async () => {
+      const emailTypes = [{}, {}] as Array<EmailType>
+      jest.spyOn(service, 'findAll').mockImplementation(async () => emailTypes)
+
+      const result = await service.findAll()
+
+      expect(result).toBe(emailTypes)
+    })
+  })
+
+  describe('seed()', () => {
     it('should seed data', async () => {
       const seedResult = { sown: true }
 

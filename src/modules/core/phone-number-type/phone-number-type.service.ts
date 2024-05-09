@@ -20,7 +20,7 @@ export class PhoneNumberTypeService {
   }
 
   findAll() {
-    return `This action returns all phoneNumberType`
+    return this.phoneNumberTypeRepository.find()
   }
 
   findOne(id: number) {

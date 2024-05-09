@@ -26,7 +26,18 @@ describe('PhoneNumberTypeService', () => {
     seedService = module.get<SeedService>(SeedService)
   })
 
-  describe('seed', () => {
+  describe('findAll()', () => {
+    it('should get all phone number types', async () => {
+      const phoneNumberTypes = [{}, {}] as Array<PhoneNumberType>
+      jest.spyOn(service, 'findAll').mockImplementation(async () => phoneNumberTypes)
+
+      const result = await service.findAll()
+
+      expect(result).toBe(phoneNumberTypes)
+    })
+  })
+
+  describe('seed()', () => {
     it('should seed data', async () => {
       const seedResult = { sown: true }
 
