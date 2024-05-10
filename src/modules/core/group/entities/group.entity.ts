@@ -12,6 +12,6 @@ export class Group {
   @OneToMany(() => ContactGroup, (contactGroup) => contactGroup.group, { onDelete: 'CASCADE' })
   contactGroups: Array<ContactGroup>
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date
 }

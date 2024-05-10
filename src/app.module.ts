@@ -18,6 +18,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
       username: process.env.POSTGRES_USERNAME,
       password: process.env.POSTGRES_PASSWORD,
       autoLoadEntities: true,
+      logging: false,
     }),
   ],
   controllers: [AppController],

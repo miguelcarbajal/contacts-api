@@ -123,7 +123,6 @@ export class ContactService {
 
         const phoneNumberInstance = this.phoneNumberRepository.create(phoneNumber)
         phoneNumberInstance.type = phoneNumberType
-        phoneNumberInstance.contact = contactInstance
 
         if (!alreadyPrimarySelected) {
           phoneNumberInstance.isPrimary = index === 0 ? true : false
@@ -144,7 +143,6 @@ export class ContactService {
 
         const emailInstance = this.emailRepository.create(email)
         emailInstance.type = emailType
-        emailInstance.contact = contactInstance
 
         if (!alreadyPrimarySelected) {
           emailInstance.isPrimary = index === 0 ? true : false

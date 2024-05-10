@@ -19,10 +19,10 @@ export class Contact {
   companyContact: CompanyContact
 
   // Locators
-  @OneToMany(() => PhoneNumber, (phoneNumber) => phoneNumber.contact, { onDelete: 'CASCADE' })
+  @OneToMany(() => PhoneNumber, (phoneNumber) => phoneNumber.contact, { cascade: true, onDelete: 'CASCADE' })
   phoneNumbers: Array<PhoneNumber>
 
-  @OneToMany(() => Email, (email) => email.contact, { onDelete: 'CASCADE' })
+  @OneToMany(() => Email, (email) => email.contact, { cascade: true, onDelete: 'CASCADE' })
   emails: Array<Email>
 
   @OneToOne(() => ContactExpiration, (contactExpiration) => contactExpiration.contact, { cascade: true })
@@ -34,6 +34,6 @@ export class Contact {
   @OneToOne(() => ContactGroup, (contactGroup) => contactGroup.contact, { cascade: true })
   contactGroup: ContactGroup
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date
 }
