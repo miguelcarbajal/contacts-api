@@ -6,7 +6,6 @@ import { Contact } from './entities/contact.entity'
 import { Repository } from 'typeorm'
 import { Person } from '../person/entities/person.entity'
 import { Company } from '../company/entities/company.entity'
-import { PersonContact } from '../person-contact/entities/person-contact.entity'
 import { CompanyContact } from '../company-contact/entities/company-contact.entity'
 import { ContactNote } from '../contact-note/entities/contact-note.entity'
 import { ContactExpiration } from '../contact-expiration/entities/contact-expiration.entity'
@@ -36,8 +35,6 @@ export class ContactService {
     private readonly emailRepository: Repository<Email>,
     @InjectRepository(EmailType)
     private readonly emailTypeRepository: Repository<EmailType>,
-    @InjectRepository(PersonContact)
-    private readonly personContactRepository: Repository<PersonContact>,
     @InjectRepository(CompanyContact)
     private readonly companyContactRepository: Repository<CompanyContact>,
     @InjectRepository(ContactNote)
@@ -49,7 +46,6 @@ export class ContactService {
   ) {}
 
   async create(createContactDto: CreateContactDto) {
-    let person: Person | undefined
     let company: Company | undefined
 
     if (!createContactDto.person && !createContactDto.companyId && !createContactDto.company) {
@@ -87,12 +83,7 @@ export class ContactService {
 
     if (createContactDto.person) {
       const personInstance = this.personRepository.create(createContactDto.person)
-      person = await this.personRepository.save(personInstance)
-
-      const personContactInstance = this.personContactRepository.create()
-      personContactInstance.person = person
-
-      contactInstance.personContact = personContactInstance
+      contactInstance.person = personInstance
     }
 
     if (createContactDto.companyId) {
@@ -160,7 +151,7 @@ export class ContactService {
   async findAll() {
     return await this.contactRepository.find({
       relations: {
-        personContact: { person: true },
+        person: true,
         companyContact: { company: true },
         contactGroup: { group: true },
         expiration: true,
@@ -179,7 +170,7 @@ export class ContactService {
     return `This action updates a #${id} contact`
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} contact`
+  async remove(id: string) {
+    return await this.contactRepository.delete(id)
   }
 }

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common'
 import { CompanyContactModule } from './company-contact/company-contact.module'
-import { PersonContactModule } from './person-contact/person-contact.module'
 import { CompanyModule } from './company/company.module'
 import { ContactModule } from './contact/contact.module'
 import { EmailModule } from './email/email.module'
@@ -22,7 +21,6 @@ import { ContactExpirationModule } from './contact-expiration/contact-expiration
     PhoneNumberModule,
     GroupModule,
     ContactGroupModule,
-    PersonContactModule,
     CompanyContactModule,
     EmailTypeModule,
     PhoneNumberTypeModule,

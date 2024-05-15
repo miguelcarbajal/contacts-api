@@ -29,6 +29,6 @@ export class ContactController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.contactService.remove(+id)
+    return this.contactService.remove(id)
   }
 }

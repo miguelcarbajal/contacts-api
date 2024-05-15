@@ -11,7 +11,6 @@ import { ContactNote } from '../contact-note/entities/contact-note.entity'
 import { EmailType } from '../email-type/entities/email-type.entity'
 import { Email } from '../email/entities/email.entity'
 import { Group } from '../group/entities/group.entity'
-import { PersonContact } from '../person-contact/entities/person-contact.entity'
 import { Person } from '../person/entities/person.entity'
 import { PhoneNumberType } from '../phone-number-type/entities/phone-number-type.entity'
 import { PhoneNumber } from '../phone-number/entities/phone-number.entity'
@@ -28,7 +27,6 @@ describe('ContactController', () => {
   const mockPhoneNumberTypeRepository: Partial<Record<keyof Repository<PhoneNumberType>, jest.Mock>> = {}
   const mockEmailRepository: Partial<Record<keyof Repository<Email>, jest.Mock>> = {}
   const mockEmailTypeRepository: Partial<Record<keyof Repository<EmailType>, jest.Mock>> = {}
-  const mockPersonContactRepository: Partial<Record<keyof Repository<PersonContact>, jest.Mock>> = {}
   const mockCompanyContactRepository: Partial<Record<keyof Repository<CompanyContact>, jest.Mock>> = {}
   const mockContactNoteRepository: Partial<Record<keyof Repository<ContactNote>, jest.Mock>> = {}
   const mockContactExpirationRepository: Partial<Record<keyof Repository<ContactExpiration>, jest.Mock>> = {}
@@ -47,7 +45,6 @@ describe('ContactController', () => {
         { provide: getRepositoryToken(PhoneNumberType), useValue: mockPhoneNumberTypeRepository },
         { provide: getRepositoryToken(Email), useValue: mockEmailRepository },
         { provide: getRepositoryToken(EmailType), useValue: mockEmailTypeRepository },
-        { provide: getRepositoryToken(PersonContact), useValue: mockPersonContactRepository },
         { provide: getRepositoryToken(CompanyContact), useValue: mockCompanyContactRepository },
         { provide: getRepositoryToken(ContactNote), useValue: mockContactNoteRepository },
         { provide: getRepositoryToken(ContactExpiration), useValue: mockContactExpirationRepository },

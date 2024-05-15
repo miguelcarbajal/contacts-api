@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm'
-import { PersonContact } from '../../person-contact/entities/person-contact.entity'
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm'
+import { Contact } from '../../contact/entities/contact.entity'
 
 @Entity('persons', { schema: 'core' })
 export class Person {
@@ -21,6 +21,7 @@ export class Person {
   @Column({ nullable: true })
   photoUrl: string | null
 
-  @OneToOne(() => PersonContact, (personContact) => personContact.person)
-  personContact: PersonContact
+  @OneToOne(() => Contact, (contact) => contact.person, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  contact: Contact
 }

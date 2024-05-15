@@ -6,7 +6,7 @@ export class ContactExpiration {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @OneToOne(() => Contact, (contact) => contact.expiration)
+  @OneToOne(() => Contact, (contact) => contact.expiration, { onDelete: 'CASCADE' })
   @JoinColumn()
   contact: Contact
 

@@ -7,7 +7,7 @@ export class CompanyContact {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @OneToOne(() => Contact, (contact) => contact.personContact)
+  @OneToOne(() => Contact, (contact) => contact.companyContact, { onDelete: 'CASCADE' })
   @JoinColumn()
   contact: Contact
 

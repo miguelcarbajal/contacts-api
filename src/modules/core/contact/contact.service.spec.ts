@@ -11,7 +11,6 @@ import { ContactNote } from '../contact-note/entities/contact-note.entity'
 import { EmailType } from '../email-type/entities/email-type.entity'
 import { Email } from '../email/entities/email.entity'
 import { Group } from '../group/entities/group.entity'
-import { PersonContact } from '../person-contact/entities/person-contact.entity'
 import { Person } from '../person/entities/person.entity'
 import { PhoneNumberType } from '../phone-number-type/entities/phone-number-type.entity'
 import { PhoneNumber } from '../phone-number/entities/phone-number.entity'
@@ -85,9 +84,6 @@ describe('ContactService', () => {
       return emailType
     }),
   }
-  const mockPersonContactRepository: Partial<Record<keyof Repository<PersonContact>, jest.Mock>> = {
-    create: jest.fn().mockImplementation(() => new PersonContact()),
-  }
   const mockCompanyContactRepository: Partial<Record<keyof Repository<CompanyContact>, jest.Mock>> = {
     create: jest.fn().mockImplementation(() => new CompanyContact()),
   }
@@ -121,7 +117,6 @@ describe('ContactService', () => {
         { provide: getRepositoryToken(PhoneNumberType), useValue: mockPhoneNumberTypeRepository },
         { provide: getRepositoryToken(Email), useValue: mockEmailRepository },
         { provide: getRepositoryToken(EmailType), useValue: mockEmailTypeRepository },
-        { provide: getRepositoryToken(PersonContact), useValue: mockPersonContactRepository },
         { provide: getRepositoryToken(CompanyContact), useValue: mockCompanyContactRepository },
         { provide: getRepositoryToken(ContactNote), useValue: mockContactNoteRepository },
         { provide: getRepositoryToken(ContactExpiration), useValue: mockContactExpirationRepository },
@@ -144,8 +139,8 @@ describe('ContactService', () => {
         group: { name: 'Work' },
       }
       mockContactRepository.save.mockImplementation((contact: Contact) => {
-        expect(contact.personContact.person.firstName).toBe(createContactDto.person.firstName)
-        expect(contact.personContact.person.lastName).toBe(createContactDto.person.lastName)
+        expect(contact.person.firstName).toBe(createContactDto.person.firstName)
+        expect(contact.person.lastName).toBe(createContactDto.person.lastName)
 
         expect(contact.companyContact.company.name).toBe(createContactDto.company.name)
 
@@ -181,8 +176,8 @@ describe('ContactService', () => {
         groupId: 'groupId',
       }
       mockContactRepository.save.mockImplementation((contact: Contact) => {
-        expect(contact.personContact.person.firstName).toBe(createContactDto.person.firstName)
-        expect(contact.personContact.person.lastName).toBe(createContactDto.person.lastName)
+        expect(contact.person.firstName).toBe(createContactDto.person.firstName)
+        expect(contact.person.lastName).toBe(createContactDto.person.lastName)
 
         expect(contact.companyContact.company.name).toBe('FindOneCompany')
 
@@ -218,8 +213,8 @@ describe('ContactService', () => {
         group: { name: 'Work' },
       }
       mockContactRepository.save.mockImplementation((contact: Contact) => {
-        expect(contact.personContact.person.firstName).toBe(createContactDto.person.firstName)
-        expect(contact.personContact.person.lastName).toBe(createContactDto.person.lastName)
+        expect(contact.person.firstName).toBe(createContactDto.person.firstName)
+        expect(contact.person.lastName).toBe(createContactDto.person.lastName)
 
         expect(contact.companyContact.company.name).toBe(createContactDto.company.name)
 

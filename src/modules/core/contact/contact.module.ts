@@ -10,7 +10,6 @@ import { ContactNote } from '../contact-note/entities/contact-note.entity'
 import { EmailType } from '../email-type/entities/email-type.entity'
 import { Email } from '../email/entities/email.entity'
 import { Group } from '../group/entities/group.entity'
-import { PersonContact } from '../person-contact/entities/person-contact.entity'
 import { Person } from '../person/entities/person.entity'
 import { PhoneNumberType } from '../phone-number-type/entities/phone-number-type.entity'
 import { PhoneNumber } from '../phone-number/entities/phone-number.entity'
@@ -18,21 +17,7 @@ import { Contact } from './entities/contact.entity'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      Contact,
-      Person,
-      Company,
-      Group,
-      PhoneNumber,
-      PhoneNumberType,
-      Email,
-      EmailType,
-      PersonContact,
-      CompanyContact,
-      ContactNote,
-      ContactExpiration,
-      ContactGroup,
-    ]),
+    TypeOrmModule.forFeature([Contact, Person, Company, Group, PhoneNumber, PhoneNumberType, Email, EmailType, CompanyContact, ContactNote, ContactExpiration, ContactGroup]),
   ],
   controllers: [ContactController],
   providers: [ContactService],

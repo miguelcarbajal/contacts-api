@@ -6,7 +6,7 @@ export class ContactNote {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @OneToOne(() => Contact, (contact) => contact.note)
+  @OneToOne(() => Contact, (contact) => contact.note, { onDelete: 'CASCADE' })
   @JoinColumn()
   contact: Contact
 
