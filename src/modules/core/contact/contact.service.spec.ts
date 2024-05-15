@@ -40,6 +40,15 @@ describe('ContactService', () => {
       company.name = 'FindOneCompany'
       return company
     }),
+    findOneBy: jest.fn().mockImplementation(({ name }) => {
+      if (name === 'existingCompanyByName') {
+        const existingCompany = new Company()
+        existingCompany.name = 'foundCompanyByName'
+        return existingCompany
+      }
+
+      return null
+    }),
   }
   const mockGroupRepository: Partial<Record<keyof Repository<Group>, jest.Mock>> = {
     create: jest.fn().mockImplementation((entityLike: DeepPartial<Group>) => {
@@ -52,6 +61,15 @@ describe('ContactService', () => {
       const group = new Group()
       group.name = 'FindOneGroup'
       return group
+    }),
+    findOneBy: jest.fn().mockImplementation(({ name }) => {
+      if (name === 'existingGroupByName') {
+        const existingCompany = new Company()
+        existingCompany.name = 'foundGroupByName'
+        return existingCompany
+      }
+
+      return null
     }),
   }
   const mockPhoneNumberRepository: Partial<Record<keyof Repository<PhoneNumber>, jest.Mock>> = {
@@ -142,7 +160,7 @@ describe('ContactService', () => {
         expect(contact.person.firstName).toBe(createContactDto.person.firstName)
         expect(contact.person.lastName).toBe(createContactDto.person.lastName)
 
-        expect(contact.companyContact.company.name).toBe(createContactDto.company.name)
+        expect(contact.companyContact.company.name).toBe(createContactDto.company.name.toLocaleUpperCase().trim())
 
         expect(contact.phoneNumbers[0].value).toBe(createContactDto.phoneNumbers[0].value)
         expect(contact.phoneNumbers[0].isPrimary).toBe(createContactDto.phoneNumbers[0].isPrimary)
@@ -154,7 +172,7 @@ describe('ContactService', () => {
 
         expect(contact.note.value).toBe(createContactDto.note)
 
-        expect(contact.contactGroup.group.name).toBe(createContactDto.group.name)
+        expect(contact.contactGroup.group.name).toBe(createContactDto.group.name.toLocaleUpperCase().trim())
 
         return { id: 'uuid', ...contact }
       })
@@ -165,7 +183,7 @@ describe('ContactService', () => {
       expect(result.id).toBe('uuid')
     })
 
-    it('should create a complete contact with all available properties, existing company and group', async () => {
+    it('should create a complete contact with all available properties, existing company and group - passing ids', async () => {
       const createContactDto: CreateContactDto = {
         person: { firstName: 'Miguel', lastName: 'Carbajal' },
         companyId: 'companyId',
@@ -202,6 +220,43 @@ describe('ContactService', () => {
       expect(result.id).toBe('uuid')
     })
 
+    it('should create a complete contact with all available properties, existing company and group - not passing ids', async () => {
+      const createContactDto: CreateContactDto = {
+        person: { firstName: 'Miguel', lastName: 'Carbajal' },
+        company: { name: 'existingCompanyByName' },
+        phoneNumbers: [{ typeId: 'test', value: '4839204389', isPrimary: true }],
+        emails: [{ typeId: 'test', value: 'miguel.carbajal@globant.com', isPrimary: true }],
+        expiration: new Date(),
+        note: 'Note text content',
+        group: { name: 'existingGroupByName' },
+      }
+      mockContactRepository.save.mockImplementation((contact: Contact) => {
+        expect(contact.person.firstName).toBe(createContactDto.person.firstName)
+        expect(contact.person.lastName).toBe(createContactDto.person.lastName)
+
+        expect(contact.companyContact.company.name).toBe('foundCompanyByName')
+
+        expect(contact.phoneNumbers[0].value).toBe(createContactDto.phoneNumbers[0].value)
+        expect(contact.phoneNumbers[0].isPrimary).toBe(createContactDto.phoneNumbers[0].isPrimary)
+
+        expect(contact.emails[0].value).toBe(createContactDto.emails[0].value)
+        expect(contact.emails[0].isPrimary).toBe(createContactDto.emails[0].isPrimary)
+
+        expect(contact.expiration.expiresAt).toBe(createContactDto.expiration)
+
+        expect(contact.note.value).toBe(createContactDto.note)
+
+        expect(contact.contactGroup.group.name).toBe('foundGroupByName')
+
+        return { id: 'uuid', ...contact }
+      })
+
+      const result = await service.create(createContactDto)
+
+      expect(mockContactRepository.save).toHaveBeenCalledWith(expect.any(Contact))
+      expect(result.id).toBe('uuid')
+    })
+
     it('should create a complete contact with all available properties and no primary email and phone number specified', async () => {
       const createContactDto: CreateContactDto = {
         person: { firstName: 'Miguel', lastName: 'Carbajal' },
@@ -216,7 +271,7 @@ describe('ContactService', () => {
         expect(contact.person.firstName).toBe(createContactDto.person.firstName)
         expect(contact.person.lastName).toBe(createContactDto.person.lastName)
 
-        expect(contact.companyContact.company.name).toBe(createContactDto.company.name)
+        expect(contact.companyContact.company.name).toBe(createContactDto.company.name.toLocaleUpperCase().trim())
 
         expect(contact.phoneNumbers[0].value).toBe(createContactDto.phoneNumbers[0].value)
         expect(contact.phoneNumbers[0].isPrimary).toBe(true)
@@ -228,7 +283,7 @@ describe('ContactService', () => {
 
         expect(contact.note.value).toBe(createContactDto.note)
 
-        expect(contact.contactGroup.group.name).toBe(createContactDto.group.name)
+        expect(contact.contactGroup.group.name).toBe(createContactDto.group.name.toLocaleUpperCase().trim())
 
         return { id: 'uuid', ...contact }
       })

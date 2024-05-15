@@ -46,8 +46,6 @@ export class ContactService {
   ) {}
 
   async create(createContactDto: CreateContactDto) {
-    let company: Company | undefined
-
     if (!createContactDto.person && !createContactDto.companyId && !createContactDto.company) {
       throw new BadRequestException('Invalid owner')
     }
@@ -72,12 +70,19 @@ export class ContactService {
       contactInstance.contactGroup = contactGroupInstance
     }
 
-    if (createContactDto.group) {
-      const groupInstance = this.groupRepository.create(createContactDto.group)
-      const group = await this.groupRepository.save(groupInstance)
-
+    if (!createContactDto.groupId && createContactDto.group) {
       const contactGroupInstance = this.contactGroupRepository.create()
-      contactGroupInstance.group = group
+
+      const existingGroup = await this.groupRepository.findOneBy({ name: createContactDto.group.name })
+      if (existingGroup) {
+        contactGroupInstance.group = existingGroup
+      } else {
+        const groupInstance = this.groupRepository.create(createContactDto.group)
+        const group = await this.groupRepository.save({ ...groupInstance, name: groupInstance.name.toLocaleUpperCase().trim() })
+
+        contactGroupInstance.group = group
+      }
+
       contactInstance.contactGroup = contactGroupInstance
     }
 
@@ -87,7 +92,7 @@ export class ContactService {
     }
 
     if (createContactDto.companyId) {
-      company = await this.companyRepository.findOne({ where: { id: createContactDto.companyId } })
+      const company = await this.companyRepository.findOne({ where: { id: createContactDto.companyId } })
 
       const companyContactInstance = this.companyContactRepository.create()
       companyContactInstance.company = company
@@ -96,11 +101,17 @@ export class ContactService {
     }
 
     if (!createContactDto.companyId && createContactDto.company) {
-      const companyIntance = this.companyRepository.create(createContactDto.company)
-      company = await this.companyRepository.save(companyIntance)
-
       const companyContactInstance = this.companyContactRepository.create()
-      companyContactInstance.company = company
+
+      const existingCompany = await this.companyRepository.findOneBy({ name: createContactDto.company.name })
+      if (existingCompany) {
+        companyContactInstance.company = existingCompany
+      } else {
+        const companyIntance = this.companyRepository.create(createContactDto.company)
+        const company = await this.companyRepository.save({ ...companyIntance, name: companyIntance.name.toLocaleUpperCase().trim() })
+
+        companyContactInstance.company = company
+      }
 
       contactInstance.companyContact = companyContactInstance
     }
