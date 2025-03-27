@@ -50,6 +50,10 @@ export class ContactService {
       throw new BadRequestException('Invalid owner')
     }
 
+    if (!createContactDto.phoneNumbers && !createContactDto.emails) {
+      throw new BadRequestException('No locators found')
+    }
+
     const contactInstance = new Contact()
 
     if (createContactDto.note) {
